@@ -4,69 +4,40 @@
     "/compressors", "/3d", "/facts", "/quiz", "/literature"
   ];
 
-  const details = {
-    centrifugal: "Центробежный — лопастное колесо разгоняет жидкость от центра к периферии. Универсален для воды и светлых нефтепродуктов. Смотрите раздел «Динамические» и 3D HowItWorks.",
-    axial: "Осевой — поток вдоль оси, как у винта. Огромный расход при малом напоре: каналы, циркуляция, охлаждение.",
-    vortex: "Вихревой — многократный обмен энергией в боковом канале. Высокий напор, скромный КПД, часто самозасос.",
-    jet: "Струйный (эжектор) — энергия рабочей струи, движущихся частей нет. Надёжен, но КПД обычно низкий.",
-    piston: "Поршневой/плунжерный — вытеснение объёма цилиндра. Высокое давление, пульсации, нужны клапаны и демпфер.",
-    gear: "Шестерённый — перенос во впадинах зубьев. Масло, топливо, нефть. Не глушить нагнетание без клапана!",
-    screw: "Винтовой — полости вдоль шнеков. Вязкие нефти и смеси, относительно ровная подача.",
-    vane: "Пластинчатый — камеры переменного объёма в гидроприводе. Мембранный — химия и дозирование без утечек по штоку."
-  };
+  const I18N = window.NK_I18N;
+  const LANG_KEY = "nk-lang";
+  let lang = "ru";
+  try { const saved = localStorage.getItem(LANG_KEY); if (saved === "ru" || saved === "en") lang = saved; } catch (_) {}
+  const T = () => I18N[lang];
+  const quizData = () => T().quiz.map(([q, options], i) => ({ q, options, a: I18N.answers[i] }));
+  let lastScore = null;
 
-  const quiz = [
-    {
-      q: "Какой класс насосов вытесняет фиксированный объём за цикл?",
-      options: ["Динамические", "Объёмные", "Только струйные", "Только осевые"],
-      a: 1
-    },
-    {
-      q: "Что обычно делают при пуске центробежного насоса на нагнетании?",
-      options: ["Полностью открывают задвижку", "Держат задвижку закрытой/почти закрытой (по паспорту)", "Глушат всасывание", "Отключают предохранительный клапан"],
-      a: 1
-    },
-    {
-      q: "Почему опасно полностью перекрывать нагнетание объёмного насоса?",
-      options: ["Упадёт КПД электродвигателя", "Давление будет расти до срыва прочности/срабатывания клапана", "Исчезнет кавитация", "Насос начнёт работать как турбина"],
-      a: 1
-    },
-    {
-      q: "Условие отсутствия кавитации:",
-      options: ["NPSHa < NPSHr", "NPSHa ≥ NPSHr (+ запас)", "H = 0", "η = 1"],
-      a: 1
-    },
-    {
-      q: "Законы подобия: при увеличении частоты вращения n напор H меняется как…",
-      options: ["~ n", "~ n²", "~ n³", "не зависит от n"],
-      a: 1
-    },
-    {
-      q: "Полезная мощность насоса равна…",
-      options: ["ρ g Q H", "Q / H", "Δp / Q", "η / n"],
-      a: 0
-    },
-    {
-      q: "Мёртвый (вредный) объём в поршневом компрессоре…",
-      options: ["Увеличивает производительность", "Снижает объёмный КПД при высокой степени сжатия", "Нужен только для смазки", "Равен нулю всегда"],
-      a: 1
-    },
-    {
-      q: "Степень сжатия компрессора — это…",
-      options: ["Qнагн / Qвс", "pнагн / pвс", "Tвс / Tнагн", "η / ε"],
-      a: 1
-    },
-    {
-      q: "Какой насос лучше подходит для очень большого расхода при малом напоре?",
-      options: ["Вихревой", "Осевой", "Мембранный", "Шестерённый"],
-      a: 1
-    },
-    {
-      q: "На вязкой нефти часто предпочтительнее…",
-      options: ["Только осевой", "Шестерённый или винтовой", "Только струйный", "Только вихревой"],
-      a: 1
-    }
-  ];
+  function applyLang(next) {
+    lang = next === "en" ? "en" : "ru";
+    try { localStorage.setItem(LANG_KEY, lang); } catch (_) {}
+    const ui = T().ui;
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const v = ui[el.dataset.i18n];
+      if (v == null) return;
+      if (el.tagName === "TITLE") document.title = v.replace(/&amp;/g, "&"); else el.innerHTML = v;
+    });
+    ["alt", "aria-label", "title", "content"].forEach(attr => {
+      document.querySelectorAll(`[data-i18n-${attr}]`).forEach(el => {
+        const v = ui[el.getAttribute(`data-i18n-${attr}`)];
+        if (v != null) el.setAttribute(attr, v);
+      });
+    });
+    document.querySelectorAll(".lang-btn").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    // re-render dynamic parts, keeping quiz selections
+    const picks = [...document.querySelectorAll("#quizForm input:checked")].map(i => [i.name, i.value]);
+    const graded = document.getElementById("quizResult").classList.contains("show");
+    renderQuiz();
+    picks.forEach(([n, v]) => { const i = document.querySelector(`#quizForm input[name="${n}"][value="${v}"]`); if (i) i.checked = true; });
+    if (graded) gradeQuiz(null);
+    const active = document.querySelector(".branch-item.active");
+    if (active) document.getElementById("classDetail").textContent = T().details[active.dataset.detail] || "";
+  }
 
   function pathFromHash() {
     const h = (location.hash || "#/").replace(/^#/, "");
@@ -86,6 +57,7 @@
   }
 
   function renderQuiz() {
+    const quiz = quizData();
     const form = document.getElementById("quizForm");
     form.innerHTML = quiz.map((item, i) => `
       <article class="card quiz-card" data-qi="${i}">
@@ -103,7 +75,8 @@
   }
 
   function gradeQuiz(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    const quiz = quizData();
     let score = 0;
     quiz.forEach((item, i) => {
       const card = document.querySelector(`.quiz-card[data-qi="${i}"]`);
@@ -119,11 +92,9 @@
     res.classList.add("show");
     document.getElementById("quizScore").textContent = `${score}/${quiz.length}`;
     const msg = document.getElementById("quizMsg");
-    if (score === quiz.length) msg.textContent = "Отлично! Можно идти на лабу с высоко поднятой головой.";
-    else if (score >= 7) msg.textContent = "Хороший уровень. Подтяните NPSH и компрессоры — и будет отлично.";
-    else if (score >= 5) msg.textContent = "База есть. Перечитайте классификацию и парадокс задвижки.";
-    else msg.textContent = "Стоит пройти разделы «Классификация», «Параметры» и «Факты» ещё раз.";
-    res.scrollIntoView({ behavior: "smooth", block: "center" });
+    const m = T().msg;
+    msg.textContent = score === quiz.length ? m[0] : score >= 7 ? m[1] : score >= 5 ? m[2] : m[3];
+    if (e) res.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   function resetQuiz() {
@@ -138,7 +109,7 @@
         document.querySelectorAll(".branch-item").forEach(x => x.classList.remove("active"));
         item.classList.add("active");
         const key = item.dataset.detail;
-        document.getElementById("classDetail").textContent = details[key] || "";
+        document.getElementById("classDetail").textContent = T().details[key] || "";
       });
     });
   }
@@ -164,7 +135,9 @@
   document.getElementById("quizForm").addEventListener("submit", gradeQuiz);
   document.getElementById("quizReset").addEventListener("click", resetQuiz);
 
-  renderQuiz();
+  document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.lang)));
+
+  applyLang(lang);
   bindClassification();
   bindEmbeds();
   showPage(pathFromHash());
