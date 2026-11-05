@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Учебное пособие: насосы и компрессоры для студентов технических вузов (УГНТУ). Классификация, параметры, NPSH, 3D-модели, квиз." />
+  <title>Насосы и компрессоры — учебное пособие</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='12' width='64' height='64' fill='%232dd4bf'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='28' font-family='Arial' fill='%23042f2e'%3EНК%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip" href="#main">К содержимому</a>
+  <header class="topnav" id="topnav">
+    <div class="topnav-inner">
+      <a class="brand" href="#/" aria-label="На главную">
+        <span class="brand-mark">НК</span>
+        <span>Насосы &amp; Компрессоры</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Меню">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#/" data-route="/">Главная</a>
+        <a href="#/classify" data-route="/classify">Классификация</a>
+        <a href="#/dynamic" data-route="/dynamic">Динамические</a>
+        <a href="#/volume" data-route="/volume">Объёмные</a>
+        <a href="#/params" data-route="/params">Параметры</a>
+        <a href="#/compressors" data-route="/compressors">Компрессоры</a>
+        <a href="#/3d" data-route="/3d">3D</a>
+        <a href="#/facts" data-route="/facts">Факты</a>
+        <a href="#/quiz" data-route="/quiz">Квиз</a>
+        <a href="#/literature" data-route="/literature">Литература</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HOME -->
+    <section class="page" id="page-home" data-page="/">
+      <div class="hero">
+        <div>
+          <div class="kicker">Учебное веб-пособие · техвуз / УГНТУ</div>
+          <h1>Насосы и компрессоры: <span>от принципа действия до NPSH</span></h1>
+          <p class="lead">Краткая, но содержательная выжимка по дисциплине: виды машин, устройство, рабочие параметры, компрессоры, интерактивные 3D и мини-тест. Материал написан своими словами на основе учебной литературы (Моргунов, Ухин, Кузнецов/Никифоров, методички УГНТУ) и общеинженерных источников.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#/classify">Начать с классификации</a>
+            <a class="btn btn-ghost" href="#/3d">Открыть 3D-модели</a>
+            <a class="btn btn-ghost" href="#/quiz">Пройти квиз</a>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <h3>Что даёт дисциплина</h3>
+          <ul>
+            <li>Различать динамические и объёмные насосы</li>
+            <li>Читать характеристики Q–H и подбирать машину</li>
+            <li>Считать мощность, КПД и запас по NPSH</li>
+            <li>Понимать компрессоры и степень сжатия</li>
+            <li>Не путать «закрытую задвижку» у разных типов</li>
+          </ul>
+        </aside>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><strong>2</strong><span>класса насосов</span></div>
+        <div class="stat"><strong>10+</strong><span>типов машин</span></div>
+        <div class="stat"><strong>7</strong><span>интерактивных 3D</span></div>
+        <div class="stat"><strong>10</strong><span>вопросов в квизе</span></div>
+      </div>
+
+      <div class="section-head">
+        <div class="kicker">Навигация</div>
+        <h2>Разделы пособия</h2>
+        <p>Идите по порядку или прыгайте к нужному блоку. Все страницы работают офлайн после загрузки (кроме внешних 3D).</p>
+      </div>
+      <div class="toc-mini">
+        <a href="#/classify">Классификация<small>дерево + схема для печати</small></a>
+        <a href="#/dynamic">Динамические<small>центробежный, осевой, вихревой, струйный</small></a>
+        <a href="#/volume">Объёмные<small>поршневой, шестерённый, винтовой…</small></a>
+        <a href="#/params">Параметры<small>Q, H, N, η, NPSH, подобие</small></a>
+        <a href="#/compressors">Компрессоры<small>степень сжатия, мёртвый объём</small></a>
+        <a href="#/3d">3D и симуляторы<small>живые модели в браузере</small></a>
+        <a href="#/facts">Факты и парадоксы<small>кавитация, задвижка, вязкость</small></a>
+        <a href="#/quiz">Мини-тест<small>проверка перед экзаменом/лабой</small></a>
+      </div>
+
+      <div class="note">Печать: откройте раздел «Классификация» или эту страницу и нажмите <strong>Ctrl+P</strong>. Для схемы лучше альбомная ориентация.</div>
+    </section>
+
+    <!-- CLASSIFY -->
+    <section class="page" id="page-classify" data-page="/classify">
+      <div class="section-head">
+        <div class="kicker">Раздел 1</div>
+        <h2>Классификация насосов</h2>
+        <p>Главный водораздел — по принципу действия: <strong>динамические</strong> (энергия потоку сообщается непрерывно лопастным аппаратом) и <strong>объёмные</strong> (жидкость вытесняется порциями фиксированного объёма).</p>
+      </div>
+
+      <div class="print-bar">
+        <span>Схема для печати (SVG):</span>
+        <button class="btn btn-primary btn-sm" type="button" onclick="window.print()">Печать страницы</button>
+        <a class="btn btn-ghost btn-sm" href="assets/classification.svg" target="_blank" rel="noopener">Открыть SVG</a>
+        <a class="btn btn-ghost btn-sm" href="assets/devices.svg" target="_blank" rel="noopener">Схемы устройств</a>
+      </div>
+
+      <div class="scheme-wrap" id="print-scheme">
+        <img src="assets/classification.svg" alt="Классификация насосов — схема для печати" width="1100" height="820" />
+      </div>
+
+      <div class="tree" style="margin-top:1.25rem">
+        <div class="tree-root">НАСОСЫ → принцип действия</div>
+        <div class="tree-branches">
+          <div class="branch">
+            <h3><span class="tag dyn">Динамические</span></h3>
+            <div class="branch-list" id="dynList">
+              <div class="branch-item" data-detail="centrifugal"><strong>Центробежный</strong><span>самое массовое применение</span></div>
+              <div class="branch-item" data-detail="axial"><strong>Осевой</strong><span>огромный расход, малый напор</span></div>
+              <div class="branch-item" data-detail="vortex"><strong>Вихревой</strong><span>высокий напор при малом Q</span></div>
+              <div class="branch-item" data-detail="jet"><strong>Струйный</strong><span>эжектор, без движущихся частей</span></div>
+            </div>
+          </div>
+          <div class="branch">
+            <h3><span class="tag vol">Объёмные</span></h3>
+            <div class="branch-list" id="volList">
+              <div class="branch-item" data-detail="piston"><strong>Поршневой</strong><span>высокий перепад давления</span></div>
+              <div class="branch-item" data-detail="gear"><strong>Шестерённый</strong><span>масло, нефть, гидравлика</span></div>
+              <div class="branch-item" data-detail="screw"><strong>Винтовой</strong><span>вязкие и газожидкостные смеси</span></div>
+              <div class="branch-item" data-detail="vane"><strong>Пластинчатый / мембранный</strong><span>гидропривод и химия</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="detail-panel" id="classDetail">Нажмите на тип насоса — появится краткая карточка. Подробности — в разделах «Динамические» и «Объёмные».</div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:1.25rem">
+        <article class="card">
+          <span class="tag dyn">Ключ</span>
+          <h3>Динамические</h3>
+          <p>Рабочий орган разгоняет жидкость. Напор и расход связаны характеристикой Q–H: при росте сопротивления сети расход падает. При полностью закрытой задвижке на нагнетании насос (если не перегреется) продолжает крутиться, расход ≈ 0, напор — максимальный (напор холостого хода).</p>
+        </article>
+        <article class="card">
+          <span class="tag vol">Ключ</span>
+          <h3>Объёмные</h3>
+          <p>Каждый оборот (или ход) вытесняет почти постоянный объём. Давление на нагнетании растёт, пока его не ограничит предохранительный клапан или прочность. Полностью перекрывать нагнетание без байпаса/клапана — опасно.</p>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top:2rem">
+        <h2>Схемы устройств</h2>
+        <p>Упрощённые разрезы трёх «классических» машин — удобно держать перед глазами на лабе.</p>
+      </div>
+      <div class="scheme-wrap dark-scheme">
+        <img src="assets/devices.svg" alt="Схемы поршневого, центробежного и шестерённого насосов" width="1200" height="520" />
+      </div>
+    </section>
+
+    <!-- DYNAMIC -->
+    <section class="page" id="page-dynamic" data-page="/dynamic">
+      <div class="section-head">
+        <div class="kicker">Раздел 2</div>
+        <h2>Динамические насосы</h2>
+        <p>Энергия от вала передаётся жидкости лопастями (или струёй рабочего агента). Подача плавная, конструкция часто проще в обслуживании, но нужен контроль кавитации и правильный подбор по сети.</p>
+      </div>
+      <div class="grid grid-2">
+        <article class="card type-card">
+          <span class="tag dyn">Лопастной</span>
+          <h3>Центробежный насос</h3>
+          <div class="meta"><span class="pill">вода / НПЗ</span><span class="pill">теплосети</span><span class="pill">мультиступенчатый</span></div>
+          <p>Жидкость входит в центр рабочего колеса (по оси), лопасти разгоняют её к периферии; в спиральном отводе кинетическая энергия частично превращается в давление. Многоступенчатые насосы ставят колёса последовательно для большого напора.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>равномерная подача</li><li>высокий КПД на воде</li><li>компактность при большом Q</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>плохой самозасос (часто нужна заливка)</li><li>падение КПД на вязких жидкостях</li><li>чувствителен к NPSH</li></ul></div>
+          </div>
+        </article>
+        <article class="card type-card">
+          <span class="tag dyn">Лопастной</span>
+          <h3>Осевой (пропеллерный)</h3>
+          <div class="meta"><span class="pill">каналы</span><span class="pill">циркуляция</span><span class="pill">большой Q</span></div>
+          <p>Поток идёт вдоль оси вала, как у гребного винта. Даёт огромный расход при сравнительно малом напоре. Часто применяют на перекачке между резервуарами, в системах охлаждения, на насосных станциях каналов.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>очень большой расход</li><li>компактный тракт</li><li>регулировка углом лопастей</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>малый напор</li><li>узкий оптимальный режим</li><li>риск кавитации на входе</li></ul></div>
+          </div>
+        </article>
+        <article class="card type-card">
+          <span class="tag dyn">Лопастной</span>
+          <h3>Вихревой (периферийный)</h3>
+          <div class="meta"><span class="pill">малый Q</span><span class="pill">высокий H</span><span class="pill">самозасос</span></div>
+          <p>Жидкость многократно обменивается энергией с лопатками в боковом канале — напор заметно выше, чем у центробежного того же размера, но КПД ниже. Удобен для чистых маловязких жидкостей и как насос с хорошим самозасасыванием.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>высокий напор</li><li>часто самозасасывающий</li><li>простая конструкция</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>низкий КПД</li><li>боится абразива</li><li>малый расход</li></ul></div>
+          </div>
+        </article>
+        <article class="card type-card">
+          <span class="tag dyn">Струйный</span>
+          <h3>Струйный насос (эжектор)</h3>
+          <div class="meta"><span class="pill">без движущихся частей</span><span class="pill">скважины</span><span class="pill">смешение</span></div>
+          <p>Рабочая струя (вода, пар, газ) через сопло создаёт разрежение и подсасывает перекачиваемую среду; в камере смешения импульс передаётся потоку. Надёжен там, где нельзя ставить механику, но термодинамический КПД обычно невелик.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>нет трущихся пар</li><li>работает с газожидкостью</li><li>простота и долговечность</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>низкий КПД</li><li>нужен источник рабочей струи</li><li>шум / эрозия сопла</li></ul></div>
+          </div>
+        </article>
+      </div>
+      <div class="note" style="margin-top:1rem">Практика: центробежный насос обычно пускают при <strong>закрытой</strong> (или почти закрытой) задвижке на нагнетании — чтобы снизить пусковой момент и не «улететь» по характеристике двигателя. После выхода на обороты задвижку открывают. Уточняйте по паспорту конкретной машины.</div>
+    </section>
+
+    <!-- VOLUME -->
+    <section class="page" id="page-volume" data-page="/volume">
+      <div class="section-head">
+        <div class="kicker">Раздел 3</div>
+        <h2>Объёмные насосы</h2>
+        <p>Подача определяется геометрическим объёмом камеры и частотой циклов. Подходят для высокого давления, вязких сред и точного дозирования. Обязателен предохранительный тракт.</p>
+      </div>
+      <div class="grid grid-2">
+        <article class="card type-card">
+          <span class="tag vol">Возвратно-поступательный</span>
+          <h3>Поршневой / плунжерный</h3>
+          <p>Поршень (или плунжер) изменяет объём цилиндра; клапаны всасывания и нагнетания открываются по перепаду давления. Плунжерные насосы дают очень высокие давления (гидроочистка, закачка реагентов). Подача пульсирующая — ставят демпферы.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>высокий напор/давление</li><li>хороший КПД</li><li>работа с умеренной вязкостью</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>пульсации</li><li>клапаны и уплотнения</li><li>габариты / масса</li></ul></div>
+          </div>
+        </article>
+        <article class="card type-card">
+          <span class="tag vol">Роторный</span>
+          <h3>Шестерённый</h3>
+          <p>Две шестерни переносят жидкость во впадинах зубьев от всасывания к нагнетанию. Классика маслосистем, топливных и нефтяных перекачек малой/средней производительности. Жёсткие требования к чистоте и зазорам.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>компактность</li><li>самозасос</li><li>простая механика</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>шум</li><li>износ при абразиве</li><li>утечки через зазоры</li></ul></div>
+          </div>
+        </article>
+        <article class="card type-card">
+          <span class="tag vol">Роторный</span>
+          <h3>Винтовой</h3>
+          <p>Один или несколько винтов образуют замкнутые полости, движущиеся вдоль оси. Отлично тянет вязкие нефти, эмульсии, иногда газожидкостные смеси. Подача относительно равномерная.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>вязкие среды</li><li>малые пульсации</li><li>высокий КПД на нефти</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>цена / точность изготовления</li><li>чувствительность к сухому ходу</li><li>ремонт сложнее</li></ul></div>
+          </div>
+        </article>
+        <article class="card type-card">
+          <span class="tag vol">Роторный / мембранный</span>
+          <h3>Пластинчатый и мембранный</h3>
+          <p><strong>Пластинчатый (шиберный)</strong> — пластины в роторе образуют камеры переменного объёма; часто в гидроприводе. <strong>Мембранный</strong> — диафрагма отделяет привод от жидкости: идеален для агрессивной химии и дозирования без утечек через уплотнение штока.</p>
+          <div class="pros-cons">
+            <div class="pros"><h4>Плюсы</h4><ul><li>герметичность (мембрана)</li><li>дозирование</li><li>работа с химией</li></ul></div>
+            <div class="cons"><h4>Минусы</h4><ul><li>ресурс мембраны</li><li>ограничение по давлению/температуре</li><li>пластинчатые боятся грязи</li></ul></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- PARAMS -->
+    <section class="page" id="page-params" data-page="/params">
+      <div class="section-head">
+        <div class="kicker">Раздел 4</div>
+        <h2>Основные параметры и формулы</h2>
+        <p>Без этих величин нельзя ни подобрать насос, ни защитить его от кавитации. Ниже — рабочие определения «для конспекта», а не дословные цитаты учебников.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Параметр</th><th>Обозначение</th><th>Смысл</th><th>Типичные единицы</th></tr></thead>
+          <tbody>
+            <tr><td>Подача (расход)</td><td>Q</td><td>объём жидкости в единицу времени</td><td>м³/с, м³/ч, л/с</td></tr>
+            <tr><td>Напор</td><td>H</td><td>энергия, сообщаемая 1 Н жидкости, в метрах столба</td><td>м</td></tr>
+            <tr><td>Давление</td><td>p / Δp</td><td>часто удобнее напора: Δp = ρgH</td><td>Па, бар, МПа</td></tr>
+            <tr><td>Мощность</td><td>N</td><td>потребляемая / полезная</td><td>Вт, кВт</td></tr>
+            <tr><td>КПД</td><td>η</td><td>N_пол / N_подвед</td><td>— (0…1) или %</td></tr>
+            <tr><td>Частота вращения</td><td>n</td><td>обороты ротора</td><td>об/мин, с⁻¹</td></tr>
+            <tr><td>NPSH</td><td>NPSH<sub>r</sub> / NPSH<sub>a</sub></td><td>запас над давлением насыщенных паров</td><td>м</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="formula-box"><div class="label">Полезная мощность насоса</div>N<sub>пол</sub> = ρ · g · Q · H &nbsp;&nbsp;→&nbsp;&nbsp; N<sub>подвед</sub> = N<sub>пол</sub> / η</div>
+      <div class="formula-box"><div class="label">Связь напора и перепада давления</div>H = Δp / (ρ · g)</div>
+      <div class="formula-box"><div class="label">Условие без кавитации</div>NPSH<sub>a</sub> ≥ NPSH<sub>r</sub> + запас (часто +0,5…1 м и более по нормам)</div>
+
+      <div class="grid grid-2" style="margin-top:1rem">
+        <article class="card">
+          <h3>NPSH простыми словами</h3>
+          <p><strong>NPSH<sub>a</sub></strong> (available) — сколько «запаса давления» реально есть на входе с учётом уровня жидкости, потерь во всасывающей линии и давления паров.<br/><br/>
+          <strong>NPSH<sub>r</sub></strong> (required) — сколько запаса требует сам насос (из каталога/испытаний), чтобы не кавитировать на данном режиме.<br/><br/>
+          Если запас мал — пузырьки пара схлопываются у колеса, падает напор, растёт шум, разрушаются лопасти.</p>
+        </article>
+        <article class="card">
+          <h3>Законы подобия (лопастные)</h3>
+          <p>При изменении частоты вращения <em>n</em> у геометрически подобного режима (приближённо):</p>
+          <div class="formula-box">Q₂/Q₁ = n₂/n₁<br/>H₂/H₁ = (n₂/n₁)²<br/>N₂/N₁ = (n₂/n₁)³</div>
+          <p>Отсюда: чуть подняли обороты — мощность растёт кубически. Для диаметра колеса D есть аналогичные соотношения с D, D², D³/D⁵ — смотрите в курсе теории лопастных машин.</p>
+        </article>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h3>Характеристика Q–H и рабочая точка</h3>
+        <p>Сеть (трубопровод + высота подъёма + местные сопротивления) имеет свою кривую H<sub>сети</sub>(Q). Пересечение с характеристикой насоса H<sub>нас</sub>(Q) — <strong>рабочая точка</strong>. Регулирование: задвижка (меняется сеть), частотный преобразователь (меняется характеристика насоса), смена диаметра колеса, параллельная/последовательная работа агрегатов.</p>
+      </div>
+    </section>
+
+    <!-- COMPRESSORS -->
+    <section class="page" id="page-compressors" data-page="/compressors">
+      <div class="section-head">
+        <div class="kicker">Раздел 5</div>
+        <h2>Компрессоры</h2>
+        <p>Компрессор повышает давление газа. В отличие от насоса, плотность заметно меняется, важны температура, степень сжатия и охлаждение.</p>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <span class="tag comp">Объёмный</span>
+          <h3>Поршневой компрессор</h3>
+          <p>Классика мобильных и стационарных станций. Степень сжатия одной ступени ограничена температурой конца сжатия и объёмом вредного пространства. Многоступенчатое сжатие с охлаждением между ступенями снижает работу.</p>
+        </article>
+        <article class="card">
+          <span class="tag comp">Объёмный</span>
+          <h3>Винтовой компрессор</h3>
+          <p>Два ротора образуют камеры, объём которых уменьшается вдоль оси. Равномерная подача, хорош для средних расходов. Бывает маслозаполненный и сухой.</p>
+        </article>
+        <article class="card">
+          <span class="tag comp">Динамический</span>
+          <h3>Центробежный компрессор</h3>
+          <p>Как центробежный насос, но для газа: колесо + диффузор. Высокие обороты, большие расходы, применяется в ГТУ, ХТП, магистральном транспорте газа (часто многоступенчато).</p>
+        </article>
+        <article class="card">
+          <span class="tag comp">Динамический</span>
+          <h3>Осевой компрессор</h3>
+          <p>Ступени «ротор–статор» вдоль оси. Очень большие расходы при умеренной степени сжатия на ступень — основа авиационных двигателей и крупных установок.</p>
+        </article>
+      </div>
+
+      <div class="formula-box" style="margin-top:1rem"><div class="label">Степень сжатия</div>ε = p<sub>нагн</sub> / p<sub>вс</sub></div>
+      <div class="grid grid-2">
+        <article class="card">
+          <h3>Мёртвый (вредный) объём</h3>
+          <p>Объём в цилиндре поршневого компрессора, который остаётся в конце нагнетания. Расширение оставшегося газа при обратном ходе уменьшает объём свежего всасывания → падает производительность и объёмный КПД. Чем больше вредное пространство и степень сжатия, тем сильнее эффект.</p>
+        </article>
+        <article class="card">
+          <h3>Что помнить на экзамене</h3>
+          <p>1) Газ сжимаем — охлаждение важно.<br/>2) ε лимитирует температура и прочность.<br/>3) Для высоких ε — несколько ступеней.<br/>4) Производительность поршневого зависит от вредного пространства.<br/>5) Динамические компрессоры чувствительны к режиму (помпаж!).</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 3D -->
+    <section class="page" id="page-3d" data-page="/3d">
+      <div class="section-head">
+        <div class="kicker">Раздел 6</div>
+        <h2>3D-модели и симуляторы</h2>
+        <p>Интерактивные модели открывайте в новой вкладке (часть сайтов блокирует iframe). Крутите, разбирайте потоки, сопоставляйте с конспектом.</p>
+      </div>
+      <div class="note">Если встроенный просмотр пустой — это ограничение X-Frame-Options у внешнего сайта. Кнопка «Открыть» всегда работает.</div>
+
+      <div class="grid grid-2" id="labsGrid">
+        <!-- filled / static cards below -->
+        <article class="card lab-card">
+          <div class="preview">🌀 Centrifugal Pump 3D</div>
+          <h3>Центробежный насос — HowItWorks</h3>
+          <p>Интерактивный разрез: колесо, поток, корпус.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://harifed.github.io/howitworks/3d/centrifugal-pump.html" target="_blank" rel="noopener">Открыть</a>
+            <button class="btn btn-ghost btn-sm" type="button" data-embed="https://harifed.github.io/howitworks/3d/centrifugal-pump.html">Попробовать iframe</button>
+          </div>
+        </article>
+        <article class="card lab-card">
+          <div class="preview">⚙️ Gear Pump 3D</div>
+          <h3>Шестерённый насос — HowItWorks</h3>
+          <p>Две шестерни и перенос жидкости во впадинах.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://harifed.github.io/howitworks/3d/gear-pump.html" target="_blank" rel="noopener">Открыть</a>
+            <button class="btn btn-ghost btn-sm" type="button" data-embed="https://harifed.github.io/howitworks/3d/gear-pump.html">Попробовать iframe</button>
+          </div>
+        </article>
+        <article class="card lab-card">
+          <div class="preview">🛢️ Alberta Oil Atlas</div>
+          <h3>Centrifugal Pump Atlas</h3>
+          <p>Учебный 3D-атлас центробежного насоса.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://albertaoil.ca/atlas/centrifugal-pump/" target="_blank" rel="noopener">Открыть</a>
+          </div>
+        </article>
+        <article class="card lab-card">
+          <div class="preview">🔧 Reciprocating Compressor</div>
+          <h3>Поршневой компрессор — Atlas</h3>
+          <p>Разбор устройства поршневого компрессора.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://albertaoil.ca/atlas/reciprocating-compressor/" target="_blank" rel="noopener">Открыть</a>
+          </div>
+        </article>
+        <article class="card lab-card">
+          <div class="preview">🧪 Engineers Universe</div>
+          <h3>Симулятор центробежного насоса</h3>
+          <p>Лабораторный сценарий: режимы работы насоса.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://engineersuniverse.com/labs/engineering/pumps-fluid/centrifugal-pump-operation" target="_blank" rel="noopener">Открыть</a>
+          </div>
+        </article>
+        <article class="card lab-card">
+          <div class="preview">❄️ HVAC Compressor</div>
+          <h3>Симулятор компрессора</h3>
+          <p>Операции компрессора в учебном HVAC-лабе.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://engineersuniverse.com/labs/engineering/hvac/compressor-operation" target="_blank" rel="noopener">Открыть</a>
+          </div>
+        </article>
+        <article class="card lab-card">
+          <div class="preview">📐 EngX3D Atlas</div>
+          <h3>Каталог 3D EngX3D</h3>
+          <p>Подборка инженерных 3D-атласов и разрезов.</p>
+          <div class="lab-actions">
+            <a class="btn btn-primary btn-sm" href="https://engx3d.com/atlas" target="_blank" rel="noopener">Открыть</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="iframe-wrap" id="embedBox" hidden>
+        <iframe id="embedFrame" title="Встроенная 3D-модель" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      </div>
+    </section>
+
+    <!-- FACTS -->
+    <section class="page" id="page-facts" data-page="/facts">
+      <div class="section-head">
+        <div class="kicker">Раздел 7</div>
+        <h2>Интересные факты и логические парадоксы</h2>
+        <p>То, что чаще всего «ломает мозг» на семинарах — и помогает запомнить предмет.</p>
+      </div>
+
+      <div class="paradox">
+        <div class="title">Парадокс закрытой задвижки</div>
+        <p>У <strong>центробежного</strong> насоса закрытая задвижка на нагнетании — штатный (осторожный) пусковой приём: расход мал, мощность часто даже меньше, чем в рабочей точке. У <strong>объёмного</strong> насоса та же ситуация — путь к разрыву корпуса или срабатыванию предохранительного клапана. Один жест — два мира физики.</p>
+      </div>
+
+      <div class="fact">
+        <h3>Кавитация — «кипение без плиты»</h3>
+        <p>Давление на входе падает ниже давления насыщенных паров — жидкость вскипает локально. Пузырьки схлопываются в зоне высокого давления и долбят металл микроударами. Насос «хрипит», напор проседает, колесо покрывается оспинами.</p>
+      </div>
+
+      <div class="paradox">
+        <div class="title">Парадокс вязкости</div>
+        <p>Кажется, что «чем гуще — тем насосу тяжелее» всегда. Для центробежного — да, резко падают Q, H и η. Для шестерённого/винтового вязкая нефть — родная среда: утечки через зазоры меньше, объёмный КПД может вырасти. Густота враг одним и союзник другим.</p>
+      </div>
+
+      <div class="fact">
+        <h3>Мёртвый объём компрессора</h3>
+        <p>Чем выше степень сжатия, тем сильнее вредное пространство «съедает» производительность: оставшийся газ расширяется и не пускает свежую порцию. Поэтому высокие давления делают ступенями, а не «одним ударом».</p>
+      </div>
+
+      <div class="paradox">
+        <div class="title">Парадокс «больше обороты — в три раза больше мощность»</div>
+        <p>По законам подобия N ~ n³. Разгон с 1500 до 3000 об/мин (×2) требует порядка ×8 мощности на валу (в идеализированной модели). Частотник — не «бесплатная крутилка», а смена всей энергетики машины и сети.</p>
+      </div>
+
+      <div class="fact">
+        <h3>Напор — не «высота трубы»</h3>
+        <p>H измеряется в метрах, но это удельная энергия. Напор 50 м на воде ≈ 5 бар, а на ртути тот же напор даст совсем другое давление, потому что ρ другая. Всегда держите в уме ρgH.</p>
+      </div>
+
+      <div class="paradox">
+        <div class="title">Парадокс параллельных насосов</div>
+        <p>«Поставим два одинаковых — получим двойной расход». Только если сеть «плоская» (мало сопротивления). На крутой сети прирост Q скромный: оба насоса упираются в одну и ту же высокую H<sub>сети</sub>. Без расчёта характеристики станции сюрприз гарантирован.</p>
+      </div>
+
+      <div class="fact">
+        <h3>Помпаж компрессора</h3>
+        <p>У динамических компрессоров есть зона неустойчивости: расход слишком мал — поток срывается, давление «дышит», машина бьёт по подшипникам. Антипомпажная защита — не бюрократия, а выживание агрегата.</p>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="page" id="page-quiz" data-page="/quiz">
+      <div class="section-head">
+        <div class="kicker">Раздел 8</div>
+        <h2>Мини-тест</h2>
+        <p>10 вопросов. После «Проверить» увидите результат и подсветку ответов.</p>
+      </div>
+      <form id="quizForm"></form>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem">
+        <button class="btn btn-primary" type="submit" form="quizForm">Проверить</button>
+        <button class="btn btn-ghost" type="button" id="quizReset">Сбросить</button>
+      </div>
+      <div class="quiz-result" id="quizResult">
+        <div class="quiz-score" id="quizScore">0/10</div>
+        <p id="quizMsg"></p>
+      </div>
+    </section>
+
+    <!-- LITERATURE -->
+    <section class="page" id="page-literature" data-page="/literature">
+      <div class="section-head">
+        <div class="kicker">Раздел 9</div>
+        <h2>Литература и как искать</h2>
+        <p>Список ориентирован на программу УГНТУ. Текст сайта — учебный парафраз, не замена первоисточникам.</p>
+      </div>
+      <ul class="lit-list">
+        <li><strong>Моргунов К. П.</strong> Насосы и насосные станции : учебное пособие. — СПб. : Лань, 2019. — 308 с.<span>База по насосам и станциям; удобно брать через ЭБС «Лань».</span></li>
+        <li><strong>Ухин Б. В.</strong> Гидравлические машины. Насосы, вентиляторы, компрессоры и гидропривод. — М. : ФОРУМ : ИНФРА-М, 2018. — 320 с.<span>Широкий охват гидромашин, включая компрессоры и гидропривод.</span></li>
+        <li><strong>Кузнецов Ю. В., Никифоров А. Г.</strong> Насосы, вентиляторы, компрессоры. — СПб. : Лань, 2020. — 304 с.<span>Компактный курс по трём классам машин.</span></li>
+        <li><strong>Миннивалеев Т. Н. (сост.)</strong> Насосы и компрессоры : учебно-методическое пособие… — Уфа : УГНТУ, 2024.<span>Локальное издание: лабораторные и самостоятельные работы. Ищите на okt.rusoil.net.</span></li>
+        <li><strong>Гаррис Н. А., Годовский Д. А. (сост.)</strong> УМП к курсовой работе «Насосы и компрессоры». — Уфа : УГНТУ, 2008.<span>Требования к курсовой, схемы, оформление.</span></li>
+        <li><strong>Дополнительно:</strong> Черкасский В. М. «Насосы, вентиляторы, компрессоры» (Энергоатомиздат, 1984); Никищенко С. Л. «Нефтегазопромысловое оборудование» (Ин-Фолио, 2008).<span>Для углубления и нефтегазового уклона.</span></li>
+      </ul>
+      <div class="note" style="margin-top:1.25rem">
+        <strong>Где брать электронно:</strong> ЭБС «Лань», портал okt.rusoil.net (ресурсы УГНТУ), biti.mephi.ru и вузовские подписки. Для курсовой начинайте с методички УГНТУ — там критерии оформления и расчётные схемы.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>© Учебное пособие «Насосы и компрессоры» · материал для учёбы · не коммерческий продукт издательств</div>
+    <div>SPA · vanilla JS · готово к Firebase / GitHub Pages</div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
