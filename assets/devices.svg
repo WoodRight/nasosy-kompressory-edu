@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img">
+  <rect width="1200" height="520" fill="#0b1220"/>
+  <style>
+    .t{font-family:Segoe UI,Arial,sans-serif;fill:#e2e8f0;text-anchor:middle}
+    .l{font-size:12px;fill:#94a3b8}
+    .h{font-size:16px;font-weight:700;fill:#2dd4bf}
+  </style>
+  <text x="600" y="36" class="t" font-size="20" font-weight="800" fill="#f8fafc">Устройство насосов — упрощённые схемы</text>
+
+  <!-- Piston -->
+  <g transform="translate(40,70)">
+    <rect x="0" y="0" width="340" height="400" rx="16" fill="#121a2b" stroke="#2a3a55"/>
+    <text x="170" y="32" class="h">Поршневой (объёмный)</text>
+    <!-- cylinder -->
+    <rect x="90" y="70" width="160" height="220" rx="8" fill="#1c2940" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="100" y="140" width="140" height="50" rx="4" fill="#2dd4bf"/>
+    <text x="170" y="170" class="t" font-size="12" fill="#042f2e" font-weight="700">ПОРШЕНЬ</text>
+    <line x1="170" y1="190" x2="170" y2="310" stroke="#94a3b8" stroke-width="6"/>
+    <circle cx="170" cy="330" r="18" fill="#64748b"/>
+    <text x="170" y="335" class="t" font-size="10">кривошип</text>
+    <!-- valves -->
+    <rect x="110" y="80" width="40" height="18" rx="3" fill="#34d399"/>
+    <text x="130" y="70" class="l">всас.</text>
+    <rect x="190" y="80" width="40" height="18" rx="3" fill="#fb7185"/>
+    <text x="210" y="70" class="l">нагнет.</text>
+    <text x="170" y="380" class="l">Q ≈ f · V_хода · η_об</text>
+  </g>
+
+  <!-- Centrifugal -->
+  <g transform="translate(430,70)">
+    <rect x="0" y="0" width="340" height="400" rx="16" fill="#121a2b" stroke="#2a3a55"/>
+    <text x="170" y="32" class="h">Центробежный (динамический)</text>
+    <circle cx="170" cy="200" r="110" fill="#1c2940" stroke="#38bdf8" stroke-width="2"/>
+    <circle cx="170" cy="200" r="28" fill="#0b1220" stroke="#2dd4bf" stroke-width="2"/>
+    <!-- blades -->
+    <g stroke="#2dd4bf" stroke-width="8" fill="none" stroke-linecap="round">
+      <path d="M170 172 Q210 160 230 130"/>
+      <path d="M198 210 Q230 190 260 190"/>
+      <path d="M170 228 Q210 250 230 280"/>
+      <path d="M142 210 Q110 230 90 260"/>
+      <path d="M142 190 Q110 160 100 130"/>
+      <path d="M170 172 Q130 150 120 120"/>
+    </g>
+    <text x="170" y="205" class="t" font-size="11" fill="#2dd4bf">вал</text>
+    <!-- arrows -->
+    <path d="M170 70 L170 95" stroke="#38bdf8" stroke-width="3" marker-end="url(#a)"/>
+    <text x="170" y="60" class="l">всасывание (ось)</text>
+    <path d="M280 200 L320 200" stroke="#fb7185" stroke-width="3"/>
+    <text x="300" y="185" class="l">нагнетание</text>
+    <text x="170" y="380" class="l">H ≈ u²/g · ψ · η_г</text>
+  </g>
+
+  <!-- Gear -->
+  <g transform="translate(820,70)">
+    <rect x="0" y="0" width="340" height="400" rx="16" fill="#121a2b" stroke="#2a3a55"/>
+    <text x="170" y="32" class="h">Шестерённый (объёмный)</text>
+    <rect x="60" y="90" width="220" height="200" rx="12" fill="#1c2940" stroke="#fbbf24" stroke-width="2"/>
+    <!-- gears -->
+    <circle cx="130" cy="190" r="48" fill="#0b1220" stroke="#fbbf24" stroke-width="10"/>
+    <circle cx="210" cy="190" r="48" fill="#0b1220" stroke="#fbbf24" stroke-width="10"/>
+    <circle cx="130" cy="190" r="12" fill="#64748b"/>
+    <circle cx="210" cy="190" r="12" fill="#64748b"/>
+    <text x="100" y="120" class="l">всас.</text>
+    <text x="240" y="120" class="l">нагнет.</text>
+    <path d="M90 100 L90 140" stroke="#38bdf8" stroke-width="3"/>
+    <path d="M250 140 L250 100" stroke="#fb7185" stroke-width="3"/>
+    <text x="170" y="330" class="l">жидкость переносится</text>
+    <text x="170" y="350" class="l">во впадинах зубьев</text>
+    <text x="170" y="380" class="l">Q ≈ 2 · z · m² · b · n · η</text>
+  </g>
+</svg>
